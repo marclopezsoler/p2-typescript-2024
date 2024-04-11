@@ -12,41 +12,32 @@ export class Artwork {
   ) {}
 }
 
-export const loadArtworks = async (totalElements: number) => {
-  const response = await fetch(
-    `https://api.artic.edu/api/v1/artworks?page=2&limit=${totalElements}`
-  );
-
-  const { data } = (await response.json()) as {
-    data: any[];
-  };
-
-  const artworks: Array<Artwork> = [];
-
-  for (const {
-    id,
-    title,
-    date_display,
-    artist_display,
-    place_of_origin,
-    description,
-    medium_display,
-    category_title,
-    style_title,
-  } of data) {
-    artworks.push(
-      new Artwork(
-        id,
-        title,
-        date_display,
-        artist_display,
-        place_of_origin,
-        description,
-        medium_display,
-        category_title,
-        style_title
-      )
+export const loadArtworks = async (
+  totalElements: number
+): Promise<Artwork[]> => {
+  try {
+    const response = await fetch(
+      `https://api.artic.edu/api/v1/artworks?page=2&limit=${totalElements}`
     );
+
+    const responseData: {data: any[]} = await response.json();
+
+    const artworks: Artwork[] = responseData.data.map((artworkData: any) => {
+      return new Artwork(
+        artworkData.id,
+        artworkData.title,
+        artworkData.date_display,
+        artworkData.artist_display,
+        artworkData.place_of_origin,
+        artworkData.description,
+        artworkData.medium_display,
+        artworkData.category_title,
+        artworkData.style_title
+      );
+    });
+    return artworks;
+  } catch (error) {
+    console.error("Error loading artworks:", error);
+    throw error;
   }
-  return artworks;
 };
