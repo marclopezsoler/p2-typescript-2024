@@ -5,9 +5,9 @@ const head = (title: string) => `
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="./assets/2048px-Art_Institute_of_Chicago.png" />
+  <link rel="stylesheet" href="styles.css" />
   <title>${title}</title>
-  <style>
-  </style>
 </head>`;
 
 const renderArtowrks = (artworks: Array<Artwork>) => {
@@ -17,7 +17,7 @@ const renderArtowrks = (artworks: Array<Artwork>) => {
     </div>`;
   }
   return html;
-}
+};
 
 export const render = (artworks: Array<Artwork>) => {
   return `
