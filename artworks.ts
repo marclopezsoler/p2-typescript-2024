@@ -14,7 +14,8 @@ export class Artwork {
     public description: string,
     public medium_display: string,
     public category_titles: string,
-    public style_title: string
+    public style_title: string,
+    public image_id: string
   ) {}
 }
 
@@ -44,7 +45,8 @@ export const loadArtworks = async (
         artworkData.description,
         artworkData.medium_display,
         artworkData.category_title,
-        artworkData.style_title
+        artworkData.style_title,
+        artworkData.image_id
       );
     });
     return artworks;

@@ -21,20 +21,16 @@ const renderArtowrks = (artworks: Array<Artwork>) => {
         .slice(0, 2)
         .join(" ");
       let artworkTitle = artwork.title;
-      if (artworkTitle.length >= 35) {
-        artworkTitle = artworkTitle.slice(0, 35) + "...";
+      if (artworkTitle.length >= 30) {
+        artworkTitle = artworkTitle.slice(0, 30) + "...";
       }
 
       html += `<div class="artwork">
-        <div class="artowrk_data">
-          <a>${artworkTitle}</a>
-          <a>${artistName}</a>
+        <div class="artwork_data">
+          <a class="title" >${artworkTitle}</a>
+          <a class="author" >by ${artistName}</a>
         </div>
-        <img class="artworkImage" src="${
-          artwork.thumbnail.lqip
-            ? artwork.thumbnail.lqip
-            : "./assets/images/placeholder_artwork_image.png"
-        }" alt="${artwork.thumbnail.alt_text}">
+        <img class="artworkImage" src=${`https://www.artic.edu/iiif/2/${artwork.image_id}/full/843,/0/default.jpg`} alt="${artwork.thumbnail.alt_text}">
       </div>`;
     }
   }
@@ -57,14 +53,19 @@ const renderHeader = () =>
         </section>
       </div>
     </header>`;
+
 const renderFooter = () => `
   <footer>
     <a href="https://marclopez.xyz" target="_blank">©2024 Marc López</a>
   </footer>
 `;
 
-// <video src="https://aic-web-cms-uploads.s3.us-east-2.amazonaws.com/a8a34eff-90e5-4c63-adcd-a22a69c04567/HomepageVideo_v7_LION_small.mp4" loop>
-// </video>
+const renderSectionHeader = (title: string) =>
+  `
+  <div class="section_header">
+    <h2>${title}</h2>
+  </div>
+  `;
 
 export const render = (artworks: Array<Artwork>) => {
   return `
@@ -72,15 +73,21 @@ export const render = (artworks: Array<Artwork>) => {
   ${renderMetadata("Art Institute of Chicago")}
   ${renderHeader()}
   <body>
-  <section class="content">
-  <div class="hero">
-    <div class="video_overlay"></div>
-    <video src="./assets/hompage_video.mp4" loop autoplay>
-    </video>
-    <h1>WELCOME TO THE ART INSTITUTE OF CHICAGO</h1>
-  </div>
-    <div class="artwork_grid" id="collection">
-      ${renderArtowrks(artworks)}
+    <section class="content">
+    <div class="hero">
+      <div class="video_container">
+        <div class="video_overlay"></div>
+        <video src="./assets/hompage_video.mp4" loop autoplay>
+        </video>
+      </div>
+      <h1>WELCOME TO THE ART INSTITUTE OF CHICAGO</h1>
+      <a class="button" href="#collection">Check our collection</a>
+    </div>
+    <div id="collection">
+      ${renderSectionHeader("COLLECTION")}
+      <div class="artwork_grid">
+        ${renderArtowrks(artworks)}
+      </div>
     </div>
   </section>
   </body>
