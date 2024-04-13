@@ -13,9 +13,30 @@ const renderMetadata = (title: string) => `
 const renderArtowrks = (artworks: Array<Artwork>) => {
   let html = "";
   for (const artwork of artworks) {
-    html += `<div>
-      <a>${artwork.title}</a>
-    </div>`;
+    if (artwork.title === "Untitled") {
+      continue;
+    } else {
+      const artistName = artwork.artist_display
+        .split(/\s+/)
+        .slice(0, 2)
+        .join(" ");
+      let artworkTitle = artwork.title;
+      if (artworkTitle.length >= 35) {
+        artworkTitle = artworkTitle.slice(0, 35) + "...";
+      }
+
+      html += `<div class="artwork">
+        <div class="artowrk_data">
+          <a>${artworkTitle}</a>
+          <a>${artistName}</a>
+        </div>
+        <img class="artworkImage" src="${
+          artwork.thumbnail.lqip
+            ? artwork.thumbnail.lqip
+            : "./assets/images/placeholder_artwork_image.png"
+        }" alt="${artwork.thumbnail.alt_text}">
+      </div>`;
+    }
   }
   return html;
 };
@@ -38,10 +59,14 @@ export const render = (artworks: Array<Artwork>) => {
   return `
 <html>
   ${renderMetadata("Art Institute of Chicago")}
-  <body>
-  ${renderArtowrks(artworks)}
   ${renderHeader()}
-  ${renderFooter()}
+  <body>
+  <section class="content">
+    <div class="artwork_grid">
+      ${renderArtowrks(artworks)}
+    </div>
+  </section>
   </body>
+  ${renderFooter()}
 </html>`;
 };

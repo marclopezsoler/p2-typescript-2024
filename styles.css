@@ -1,0 +1,48 @@
+html {
+  --artworkSz: 150px;
+}
+
+.content {
+  max-width: 100vw;
+  min-height: 100vh;
+}
+
+.artwork_grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5rem;
+}
+
+.artwork {
+  position: relative;
+  height: var(--artworkSz);
+  width: var(--artworkSz);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 2px solid transparent;
+  border-radius: 25px;
+  opacity: 0.5;
+  transition: 0.25s;
+  overflow: hidden;
+}
+
+.artwork_data {
+}
+
+.artworkImage {
+  position: absolute;
+  height: var(--artworkSz);
+  width: var(--artworkSz);
+  z-index: 0;
+  top: 0;
+  left: 0;
+  
+}
+
+.artwork:hover {
+  opacity: 1;
+  border: 2px solid black;
+}
