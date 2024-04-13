@@ -47,13 +47,24 @@ const renderArtowrks = (artworks: Array<Artwork>) => {
 
 const renderHeader = () =>
   `<header>
-    <h1>Art Institute of Chicago</h1> 
-  </header>`;
+      <div class="header_child">
+        <img class="header_logo" src="./assets/2048px-Art_Institute_of_Chicago_header.png">
+        <section class="header_links">
+          <a href="/" >Visit</a>
+          <a href="/" >Exhibitions & Events</a>
+          <a href="#collection" >The Collection</a>
+          <img class="search_icon" src="./assets/images/search.svg" >
+        </section>
+      </div>
+    </header>`;
 const renderFooter = () => `
   <footer>
     <a href="https://marclopez.xyz" target="_blank">©2024 Marc López</a>
   </footer>
 `;
+
+// <video src="https://aic-web-cms-uploads.s3.us-east-2.amazonaws.com/a8a34eff-90e5-4c63-adcd-a22a69c04567/HomepageVideo_v7_LION_small.mp4" loop>
+// </video>
 
 export const render = (artworks: Array<Artwork>) => {
   return `
@@ -62,7 +73,13 @@ export const render = (artworks: Array<Artwork>) => {
   ${renderHeader()}
   <body>
   <section class="content">
-    <div class="artwork_grid">
+  <div class="hero">
+    <div class="video_overlay"></div>
+    <video src="./assets/hompage_video.mp4" loop autoplay>
+    </video>
+    <h1>WELCOME TO THE ART INSTITUTE OF CHICAGO</h1>
+  </div>
+    <div class="artwork_grid" id="collection">
       ${renderArtowrks(artworks)}
     </div>
   </section>

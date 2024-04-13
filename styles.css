@@ -1,5 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
+
 html {
   --artworkSz: 150px;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  font-family: "Nunito Sans", sans-serif;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+header {
+  position: fixed;
+  height: 25vh;
+  width: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  z-index: 999;
+}
+
+.header_child{
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   width: 90%;
+}
+
+.header_logo .header_links {
+  filter: invert(100%);
+}
+
+.header_logo {
+  width: 6rem;
+  height: 6rem;
+}
+
+.header_links {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  font-size: calc(0.8rem + 8px);
+  font-weight: 400;
+}
+
+.header_links > a {
+  color: white;
+  text-decoration: none;
+  transition: 0.25s;
+}
+
+.header_links > a:hover {
+  opacity: 0.67;
+}
+
+.search_icon {
+  width: 25px;
 }
 
 .content {
@@ -11,6 +73,7 @@ html {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 5rem;
+  padding: 2.5rem;
 }
 
 .artwork {
@@ -39,10 +102,49 @@ html {
   z-index: 0;
   top: 0;
   left: 0;
-  
 }
 
 .artwork:hover {
   opacity: 1;
   border: 2px solid black;
+}
+
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.video_overlay{
+   position: absolute;
+   top: 0;
+   background-color: rgba(0, 0, 0, 0.25);
+   width: 100vw;
+   height: 100vh;
+   z-index: 1;
+}
+
+video {
+  position: absolute;
+  width: 100vw;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  pointer-events: none;
+  
+}
+
+h1 {
+  color: white;
+  z-index: 1;
+  font-weight: 400;
+  font-size: calc(1.4rem + 12px);
+   letter-spacing: 0.2rem;
 }
