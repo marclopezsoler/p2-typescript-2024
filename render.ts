@@ -13,7 +13,7 @@ const renderMetadata = (title: string) => `
 const renderArtowrks = (artworks: Array<Artwork>) => {
   let html = "";
   for (const artwork of artworks) {
-    if (artwork.title === "Untitled") {
+    if (artwork.title === "Untitled" || artwork.image_id === null) {
       continue;
     } else {
       const artistName = artwork.artist_display
@@ -26,11 +26,11 @@ const renderArtowrks = (artworks: Array<Artwork>) => {
       }
 
       html += `<div class="artwork">
-        <div class="artwork_data">
-          <a class="title" >${artworkTitle}</a>
-          <a class="author" >by ${artistName}</a>
-        </div>
-        <img class="artworkImage" src=${`https://www.artic.edu/iiif/2/${artwork.image_id}/full/843,/0/default.jpg`} alt="${artwork.thumbnail.alt_text}">
+          <img class="artworkImage" src=${`https://www.artic.edu/iiif/2/${artwork.image_id}/full/843,/0/default.jpg`} alt="${
+        artwork.thumbnail.alt_text
+      }">
+          <a class="title" >${artwork.title}</a>
+          <a class="author" >${artistName}</a>
       </div>`;
     }
   }
@@ -46,8 +46,8 @@ const renderHeader = () =>
       <div class="header_child">
         <img class="header_logo" src="./assets/2048px-Art_Institute_of_Chicago_header.png">
         <section class="header_links">
-          <a href="/" >Visit</a>
-          <a href="/" >Exhibitions & Events</a>
+          <a href="/">Visit</a>
+          <a href="/">Exhibitions & Events</a>
           <a href="#collection" >The Collection</a>
           <img class="search_icon" src="./assets/images/search.svg" >
         </section>
