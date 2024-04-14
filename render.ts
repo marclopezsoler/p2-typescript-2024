@@ -54,7 +54,10 @@ const renderHeader = (collectionUrl: string) =>
           <a href="../artworks.html">Exhibitions & Events</a>
           <a href=${collectionUrl} >The Collection</a>
           <img class="search_icon" src="../assets/images/search.svg" >
-        </section>
+          </section>
+          <section class="mobile_menu">
+            <img class="search_icon" src="../assets/images/burger_menu.svg" >
+          </section>
       </div>
     </header>`;
 
@@ -72,7 +75,7 @@ const renderHero = () => `
 
 const renderFooter = () => `
   <footer>
-    <a href="https://marclopez.xyz" target="_blank">©2024 Marc López</a>
+    <span>©2024 </span><a href="https://marclopez.xyz" target="_blank">Marc López</a>
   </footer>
 `;
 
@@ -110,13 +113,7 @@ export async function generateArtworkPages(artworks: Array<Artwork>) {
 }
 
 const renderArtwork = (artwork: Artwork) => {
-  const artist_display = artwork.artist_display;
-  const artistName = artist_display.split(/\s+/).slice(0, 2).join(" ");
-  let nationality = "";
-  if (artist_display && artist_display.split(/\s+/).length > 2) {
-    nationality = artist_display.split(/\s+/)[2].replace(",", "");
-  }
-  const lifeDate = artist_display.split(/\s+/)[3];
+  const artistName = artwork.artist_display.split(/\s+/).slice(0, 2).join(" ");
 
   return `
     <html>
@@ -131,15 +128,18 @@ const renderArtwork = (artwork: Artwork) => {
   }</h1>
         <h2>By ${artistName}</h2>
         </section>
-        <section>
-          <p>${artwork.title} ${
+        <section class="artwork_detail">
+          <div class="artwork_detail_child">
+            <p class="artwork_title">${artwork.title} ${
     artwork.date_display === "n.d." ? "" : `— ${artwork.date_display}`
   }</p>
-          <p>${nationality}</p>
-          <p>${lifeDate}</p>
-          <p>${artwork.description}</p>
-        </section>
-        <section>
+            <p class="artwork_details">${artwork.artist_display}</p>
+            ${
+              artwork.description
+                ? `<div class="artwork_description">${artwork.description}</div>`
+                : ""
+            }
+          </div>
           ${renderRowDetail("Artist", artistName)}
           ${renderRowDetail("Title", artwork.title)}
           ${renderRowDetail("Place", artwork.place_of_origin)}
@@ -153,16 +153,17 @@ const renderArtwork = (artwork: Artwork) => {
           ${renderRowDetail("Reference Number", artwork.main_reference_number)}
         </section>
       </body>
+      ${renderFooter()}
     </html>
   `;
 };
 
 const renderRowDetail = (type: string, value: string) =>
   `
-    <div>
-      <p>${type}</p>
-      <p>${value}</p>
-    </div>
+    <ul class="row_artwork">
+      <li class="type">${type}</li>
+      <li class="value">${value}</li>
+    </ul>
   `;
 
 export async function artworkPage(artwork: Artwork) {
