@@ -1,3 +1,15 @@
+# P2 Typescript - Full-Stack Web Technologies Postgraduate
+
+### API
+
+The API used for this project is the Art Institute of Chicago API (https://api.artic.edu/docs/).
+
+### Start the project
+
+In order to see the project deployed, you first need to open it on Visual Studio Code and run the following command on the terminal `bun run main.ts`, which creates artworks.html and the page detail for each artwork.
+
+Now, by having the `artworks.html` file open & running Live Server, you can see the result of the project.
+
 # Generador de HTML en Typescript
 
 Se trata de hacer un programa en Typescript que genera una página en HTML a partir de datos leídos en JSON. Se proporciona un ejemplo sencillo, con una sola página, a modo de guía. 
