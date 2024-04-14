@@ -281,7 +281,7 @@ h1 {
   filter: blur(5px);
 }
 
-.detail > h1, h2{
+.detail > h1 + h2{
   z-index: 1;
   color: white;
   font-weight: 400;

@@ -13,9 +13,12 @@ export class Artwork {
     public place_of_origin: string,
     public description: string,
     public medium_display: string,
-    public category_titles: string,
-    public style_title: string,
-    public image_id: string
+    public image_id: string,
+    public date_start: number,
+    public date_end: number,
+    public dimensions: string,
+    public credit_line: string,
+    public main_reference_number: string
   ) {}
 }
 
@@ -44,9 +47,12 @@ export const loadArtworks = async (
         artworkData.place_of_origin,
         artworkData.description,
         artworkData.medium_display,
-        artworkData.category_title,
-        artworkData.style_title,
-        artworkData.image_id
+        artworkData.image_id,
+        artworkData.date_start,
+        artworkData.date_end,
+        artworkData.dimensions,
+        artworkData.credit_line,
+        artworkData.main_reference_number
       );
     });
     return artworks;

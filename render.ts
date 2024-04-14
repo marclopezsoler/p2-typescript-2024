@@ -43,16 +43,16 @@ const renderArtowrks = (artworks: Array<Artwork>) => {
   return html;
 };
 
-const renderHeader = () =>
+const renderHeader = (collectionUrl: string) =>
   `<header>
       <div class="header_child">
         <a href="../artworks.html">
           <img class="header_logo" src="../assets/2048px-Art_Institute_of_Chicago_header.png">
         </a>
         <section class="header_links">
-          <a href="/">Visit</a>
-          <a href="/">Exhibitions & Events</a>
-          <a href="#collection" >The Collection</a>
+          <a href="../artworks.html">Visit</a>
+          <a href="../artworks.html">Exhibitions & Events</a>
+          <a href=${collectionUrl} >The Collection</a>
           <img class="search_icon" src="../assets/images/search.svg" >
         </section>
       </div>
@@ -87,7 +87,7 @@ export const render = (artworks: Array<Artwork>) => {
   return `
 <html>
   ${renderMetadata("Art Institute of Chicago")}
-  ${renderHeader()}
+  ${renderHeader("#collection")}
   <body>
     <section class="content">
     ${renderHero()}
@@ -110,16 +110,18 @@ export async function generateArtworkPages(artworks: Array<Artwork>) {
 }
 
 const renderArtwork = (artwork: Artwork) => {
-  const artistName = artwork.artist_display.split(/\s+/).slice(0, 2).join(" ");
-  let artworkTitle = artwork.title;
-  if (artworkTitle.length >= 30) {
-    artworkTitle = artworkTitle.slice(0, 30) + "...";
+  const artist_display = artwork.artist_display;
+  const artistName = artist_display.split(/\s+/).slice(0, 2).join(" ");
+  let nationality = "";
+  if (artist_display && artist_display.split(/\s+/).length > 2) {
+    nationality = artist_display.split(/\s+/)[2].replace(",", "");
   }
+  const lifeDate = artist_display.split(/\s+/)[3];
 
   return `
     <html>
       ${renderMetadata(`${artwork.title} — Art Institute of Chicago`)}
-      ${renderHeader()}
+      ${renderHeader("../artworks.html#collection")}
       <body>
         <section class="detail">
           <div class="video_overlay"></div>
@@ -129,10 +131,39 @@ const renderArtwork = (artwork: Artwork) => {
   }</h1>
         <h2>By ${artistName}</h2>
         </section>
+        <section>
+          <p>${artwork.title} ${
+    artwork.date_display === "n.d." ? "" : `— ${artwork.date_display}`
+  }</p>
+          <p>${nationality}</p>
+          <p>${lifeDate}</p>
+          <p>${artwork.description}</p>
+        </section>
+        <section>
+          ${renderRowDetail("Artist", artistName)}
+          ${renderRowDetail("Title", artwork.title)}
+          ${renderRowDetail("Place", artwork.place_of_origin)}
+          ${renderRowDetail(
+            "Date",
+            `${artwork.date_start}-${artwork.date_end}`
+          )}
+          ${renderRowDetail("Medium", artwork.medium_display)}
+          ${renderRowDetail("Dimensions", artwork.dimensions)}
+          ${renderRowDetail("Credit Line", artwork.credit_line)}
+          ${renderRowDetail("Reference Number", artwork.main_reference_number)}
+        </section>
       </body>
     </html>
   `;
 };
+
+const renderRowDetail = (type: string, value: string) =>
+  `
+    <div>
+      <p>${type}</p>
+      <p>${value}</p>
+    </div>
+  `;
 
 export async function artworkPage(artwork: Artwork) {
   const artworkFile = renderArtwork(artwork);
