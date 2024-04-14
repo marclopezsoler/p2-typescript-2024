@@ -1,3 +1,4 @@
+import { writeFile } from "fs/promises";
 import { Artwork } from "./artworks.js";
 
 const renderMetadata = (title: string) => `
@@ -25,21 +26,22 @@ const renderArtowrks = (artworks: Array<Artwork>) => {
         artworkTitle = artworkTitle.slice(0, 30) + "...";
       }
 
-      html += `<div class="artwork">
-          <img class="artworkImage" src=${`https://www.artic.edu/iiif/2/${artwork.image_id}/full/843,/0/default.jpg`} alt="${
-        artwork.thumbnail.alt_text
-      }">
-          <a class="title" >${artwork.title}</a>
-          <a class="author" >${artistName}</a>
-      </div>`;
+      html += `
+        <div class="artwork">
+          <a class="artwork_child" href="./pages/${artwork.id}.html">
+            <img class="artworkImage" src=${`https://www.artic.edu/iiif/2/${artwork.image_id}/full/843,/0/default.jpg`} alt="${
+            artwork.thumbnail.alt_text
+          }">
+            <div class="artwork_data">
+              <h3 class="title">${artwork.title}</h3>
+              <h4 class="author">${artistName}</h4>
+            </div>
+          </a>
+        </div>`;
     }
   }
   return html;
 };
-
-// async function renderArtwork = (artworks: Artwork){
-
-// }
 
 const renderHeader = () =>
   `<header>
@@ -53,6 +55,18 @@ const renderHeader = () =>
         </section>
       </div>
     </header>`;
+
+const renderHero = () => `
+    <div class="hero">
+    <div class="video_container">
+      <div class="video_overlay"></div>
+      <video src="./assets/hompage_video.mp4" loop autoplay>
+      </video>
+    </div>
+    <h1>WELCOME TO THE ART INSTITUTE OF CHICAGO</h1>
+    <a class="button" href="#collection">Check our collection</a>
+  </div>
+    `;
 
 const renderFooter = () => `
   <footer>
@@ -74,15 +88,7 @@ export const render = (artworks: Array<Artwork>) => {
   ${renderHeader()}
   <body>
     <section class="content">
-    <div class="hero">
-      <div class="video_container">
-        <div class="video_overlay"></div>
-        <video src="./assets/hompage_video.mp4" loop autoplay>
-        </video>
-      </div>
-      <h1>WELCOME TO THE ART INSTITUTE OF CHICAGO</h1>
-      <a class="button" href="#collection">Check our collection</a>
-    </div>
+    ${renderHero()}
     <div id="collection">
       ${renderSectionHeader("COLLECTION")}
       <div class="artwork_grid">
@@ -94,3 +100,20 @@ export const render = (artworks: Array<Artwork>) => {
   ${renderFooter()}
 </html>`;
 };
+
+const renderArtwork = (artwork: Artwork) => {
+  return `
+    <html>
+      ${renderMetadata(artwork.title)}
+      <body>
+        <h1>${artwork.title}</h1>
+      </body>
+    </html>
+  `;
+};
+
+export async function artworkPage(artwork: Artwork, id: number) {
+  const artworkFile = renderArtwork(artwork);
+  const filePath = `pages/${artwork.id}.html`;
+  await writeFile(filePath, artworkFile);
+}
