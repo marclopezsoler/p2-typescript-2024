@@ -6,8 +6,8 @@ const renderMetadata = (title: string) => `
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/x-icon" href="./assets/2048px-Art_Institute_of_Chicago.png" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/x-icon" href="../assets/2048px-Art_Institute_of_Chicago.png" />
+  <link rel="stylesheet" href="../styles.css" />
   <title>${title}</title>
 </head>`;
 
@@ -28,10 +28,10 @@ const renderArtowrks = (artworks: Array<Artwork>) => {
 
       html += `
         <div class="artwork">
-          <a class="artwork_child" href="./pages/${artwork.id}.html">
+          <a class="artwork_child" href="/pages/${artwork.id}.html">
             <img class="artworkImage" src=${`https://www.artic.edu/iiif/2/${artwork.image_id}/full/843,/0/default.jpg`} alt="${
-            artwork.thumbnail.alt_text
-          }">
+        artwork.thumbnail.alt_text
+      }">
             <div class="artwork_data">
               <h3 class="title">${artwork.title}</h3>
               <h4 class="author">${artistName}</h4>
@@ -46,12 +46,14 @@ const renderArtowrks = (artworks: Array<Artwork>) => {
 const renderHeader = () =>
   `<header>
       <div class="header_child">
-        <img class="header_logo" src="./assets/2048px-Art_Institute_of_Chicago_header.png">
+        <a href="../artworks.html">
+          <img class="header_logo" src="../assets/2048px-Art_Institute_of_Chicago_header.png">
+        </a>
         <section class="header_links">
           <a href="/">Visit</a>
           <a href="/">Exhibitions & Events</a>
           <a href="#collection" >The Collection</a>
-          <img class="search_icon" src="./assets/images/search.svg" >
+          <img class="search_icon" src="../assets/images/search.svg" >
         </section>
       </div>
     </header>`;
@@ -101,18 +103,38 @@ export const render = (artworks: Array<Artwork>) => {
 </html>`;
 };
 
+export async function generateArtworkPages(artworks: Array<Artwork>) {
+  for (const artwork of artworks) {
+    await artworkPage(artwork);
+  }
+}
+
 const renderArtwork = (artwork: Artwork) => {
+  const artistName = artwork.artist_display.split(/\s+/).slice(0, 2).join(" ");
+  let artworkTitle = artwork.title;
+  if (artworkTitle.length >= 30) {
+    artworkTitle = artworkTitle.slice(0, 30) + "...";
+  }
+
   return `
     <html>
-      ${renderMetadata(artwork.title)}
+      ${renderMetadata(`${artwork.title} — Art Institute of Chicago`)}
+      ${renderHeader()}
       <body>
-        <h1>${artwork.title}</h1>
+        <section class="detail">
+          <div class="video_overlay"></div>
+          <img class="bg_image" src=${`https://www.artic.edu/iiif/2/${artwork.image_id}/full/843,/0/default.jpg`}/>
+          <h1>${artwork.title} ${
+    artwork.date_display === "n.d." ? "" : `— ${artwork.date_display}`
+  }</h1>
+        <h2>By ${artistName}</h2>
+        </section>
       </body>
     </html>
   `;
 };
 
-export async function artworkPage(artwork: Artwork, id: number) {
+export async function artworkPage(artwork: Artwork) {
   const artworkFile = renderArtwork(artwork);
   const filePath = `pages/${artwork.id}.html`;
   await writeFile(filePath, artworkFile);
